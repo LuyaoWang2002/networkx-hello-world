@@ -7,7 +7,7 @@ NetworkX Hello World Project
 4. Analyze network properties
 5. Visualize the network
 
-TODO: Fill in the missing code sections
+Completed analysis and Challenge 2: route around Wean Hall construction.
 """
 
 import networkx as nx
@@ -62,37 +62,32 @@ print(f"Added {G.number_of_edges()} walking paths")
 # ============================================================================
 print("Part 3: Finding shortest paths...")
 
-# TODO: Find the shortest path from Gates Hillman Center to Hunt Library
+# Find the fastest walking route using the edge weights.
 start = 'Gates Hillman Center'
 end = 'Hunt Library'
 
-# YOUR CODE HERE: Use nx.shortest_path() to find the shortest route
-# shortest_path = 
+shortest_path = nx.shortest_path(G, start, end, weight='weight')
 
-# YOUR CODE HERE: Use nx.shortest_path_length() to find the walking time
-# walking_time = 
+walking_time = nx.shortest_path_length(G, start, end, weight='weight')
 
-# print(f"\nShortest route from {start} to {end}:")
-# print(f"  Route: {' -> '.join(shortest_path)}")
-# print(f"  Walking time: {walking_time} minutes")
+print(f"\nShortest route from {start} to {end}:")
+print(f"  Route: {' -> '.join(shortest_path)}")
+print(f"  Walking time: {walking_time} minutes")
 
 # ============================================================================
 # PART 4: Network Analysis
 # ============================================================================
 print("Part 4: Analyzing the network...")
 
-# TODO: Calculate the degree (number of connections) for each building
+# Calculate the number of connections for each building.
 print("\nConnections per building:")
 for building in G.nodes():
-    # YOUR CODE HERE: Use G.degree(building) to get the number of connections
-    pass
-    # degree = 
-    # print(f"  {building:25s}: {degree} connections")
+    degree = G.degree(building)
+    print(f"  {building:25s}: {degree} connections")
 
-# TODO: Calculate betweenness centrality (which buildings are most "central")
-# betweenness = 
-# most_central = max(betweenness, key=betweenness.get)
-# print(f"\nMost central building: {most_central}")
+betweenness = nx.betweenness_centrality(G, weight='weight')
+most_central = max(betweenness, key=betweenness.get)
+print(f"\nMost central building: {most_central}")
 
 # ============================================================================
 # PART 5: Visualization
@@ -125,6 +120,7 @@ plt.tight_layout()
 plt.savefig('cmu_network.png', 
             dpi=300, bbox_inches='tight')
 print("Visualization saved!")
+plt.close()
 
 # Save as GraphML (standard format for network analysis)
 # Remove pos attribute (tuples) before export as GraphML doesn't support them
@@ -136,13 +132,13 @@ nx.write_graphml(G_export, 'cmu_network.graphml')
 print("Network exported to cmu_network.graphml (can be opened in other tools)")
 
 # ============================================================================
-# Part 6: Harder Challenges (Pick 1 Challenge)
+# Part 6: Challenge 2 - Wean Hall is closed for construction
 # ============================================================================
-print("\n1. Find ALL possible paths from Gates Hillman Center to Hunt Library:")
-# TODO: Use nx.all_simple_paths() to find all routes
-
-print("\n2. What if Wean Hall is closed for construction?")
-# TODO: Remove Wean Hall and recalculate the shortest path
-
-print("\n3. Calculate the average walking time between any two buildings:")
-# TODO: Use nx.average_shortest_path_length()
+print("\nChallenge 2: What if Wean Hall is closed for construction?")
+construction_graph = G.copy()
+construction_graph.remove_node('Wean Hall')
+construction_path = nx.shortest_path(construction_graph, start, end, weight='weight')
+construction_time = nx.shortest_path_length(construction_graph, start, end, weight='weight')
+print(f"  Detour: {' -> '.join(construction_path)}")
+print(f"  Walking time: {construction_time} minutes")
+print(f"  Extra walking time: {construction_time - walking_time} minute(s)")

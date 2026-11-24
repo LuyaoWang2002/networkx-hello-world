@@ -22,3 +22,13 @@ def test_degree_counts():
     # Basic sanity check: every building has at least one path
     for d in degrees.values():
         assert d >= 1
+
+
+def test_construction_detour():
+    assert "Wean Hall" not in cmu.construction_graph
+    assert "Wean Hall" in cmu.G
+    assert cmu.construction_path == [
+        "Gates Hillman Center", "Tepper Building", "Cohon Center", "Hunt Library"
+    ]
+    assert cmu.construction_time == 6
+    assert cmu.construction_time - cmu.walking_time == 1

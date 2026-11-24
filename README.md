@@ -2,6 +2,37 @@
 
 A small walking network of five CMU buildings. You build the graph, find the fastest route between two buildings, analyze the network and package the script as a container.
 
+## My Completed Activity
+
+I filled in the shortest route, walking time, degree counts and betweenness
+centrality. I chose **Challenge 2: Wean Hall is closed for construction**.
+The original route takes 5 minutes. With Wean Hall closed, the route is
+Gates Hillman Center -> Tepper Building -> Cohon Center -> Hunt Library.
+It takes 6 minutes, which is 1 minute longer. A copy of the graph is used so
+the original network stays available for comparison.
+
+The script also creates `cmu_network.png` and `cmu_network.graphml`.
+Run `python -m pytest -v` to check the three original tests and the detour test.
+
+The **Build and Publish Container** action tests the code and publishes a
+Linux AMD64/ARM64 image on every push and on published releases.
+
+### Run my release container
+
+```bash
+docker pull ghcr.io/luyaowang2002/networkx-hello-world:1.0.0
+docker run --rm ghcr.io/luyaowang2002/networkx-hello-world:1.0.0
+```
+
+To also save the chart and GraphML on your computer, run from the project folder:
+
+```bash
+mkdir -p output
+docker run --rm -v "$(pwd)/output:/output" -w /output ghcr.io/luyaowang2002/networkx-hello-world:1.0.0
+```
+
+Release: https://github.com/LuyaoWang2002/networkx-hello-world/releases/tag/v1.0.0
+
 ## Activity
 
 1. Fork this repository.
